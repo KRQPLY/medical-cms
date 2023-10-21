@@ -1,0 +1,31 @@
+{% load static %}
+<!-- Slider Area -->
+<section class="slider">
+  <div class="hero-slider">
+    {% for slide in slides %}
+    <!-- Start Single Slider -->
+    <div class="single-slider" style="background-image: url('{% static slide.background %}')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7">
+            <div class="text">
+              <h1>
+                {{slide.heading | safe}}
+              </h1>
+              <p>
+                {{ slide.description }}
+              </p>
+              <div class="button">
+                <a href="#" class="btn">{{ slide.left_button }}</a>
+                <a href="#" class="btn primary">{{ slide.right_button }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Single Slider -->
+    {% endfor %}
+  </div>
+</section>
+<!--/ End Slider Area -->
