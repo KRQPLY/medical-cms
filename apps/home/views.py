@@ -1,13 +1,12 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
+from django.shortcuts import render, redirect, get_object_or_404
+from client.models import Slider
+from django.apps import apps
+from django.forms import modelform_factory
 
 
 @login_required(login_url="/administration/login/")
@@ -42,3 +41,53 @@ def pages(request):
     except:
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url="/administration/login/")
+def components_view(request):
+    slider = Slider.objects.get(name="slider-main")
+
+    slider_items = slider.slideritem_set.all()
+
+    return render(request, 'home/components.html', {'slider': slider_items})
+
+
+@login_required(login_url="/administration/login/")
+def edit_object(request, model_name, pk):
+    model = apps.get_model(app_label='client', model_name=model_name)
+    object = get_object_or_404(model, pk=pk)
+    modelForm = modelform_factory(model, fields='__all__')
+    
+    if request.method == 'POST':
+        form = modelForm(request.POST, request.FILES, instance=object)
+        if form.is_valid():
+            form.save()
+            return redirect(components_view)
+    else:
+        form = modelForm(instance=object)
+    
+    return render(request, 'home/edit.html', {'form': form})
+
+
+@login_required(login_url="/administration/login/")
+def delete_object(request, model_name, pk):
+    model = apps.get_model(app_label='client', model_name=model_name)
+    object = get_object_or_404(model, pk=pk)
+    object.delete()
+
+    return redirect(components_view)
+
+@login_required(login_url="/administration/login/")
+def add_object(request, model_name):
+    model = apps.get_model(app_label='client', model_name=model_name)
+    modelForm = modelform_factory(model, fields='__all__')
+    
+    if request.method == 'POST':
+        form = modelForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(components_view)
+    else:
+        form = modelForm()
+    
+    return render(request, 'home/edit.html', {'form': form})

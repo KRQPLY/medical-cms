@@ -1,8 +1,3 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
 from django.urls import path, re_path
 from apps.home import views
 
@@ -10,6 +5,10 @@ urlpatterns = [
 
     # The home page
     path('', views.index, name='home_admin'),
+    path('components', views.components_view, name='components_admin'),
+    path('components/<str:model_name>/<int:pk>', views.edit_object, name='edit_object_admin'),
+    path('components/delete/<str:model_name>/<int:pk>', views.delete_object, name='delete_object_admin'),
+    path('components/add/<str:model_name>', views.add_object, name='add_object_admin'),
 
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),

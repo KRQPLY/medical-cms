@@ -25,6 +25,7 @@ package-lock.json
 staticfiles/*
 !staticfiles/.gitkeep 
 .vscode/symbols.json
+core/media
 
 apps/static/assets/node_modules
 apps/static/assets/yarn.lock

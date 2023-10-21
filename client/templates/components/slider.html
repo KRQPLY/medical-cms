@@ -4,7 +4,7 @@
   <div class="hero-slider">
     {% for slide in slides %}
     <!-- Start Single Slider -->
-    <div class="single-slider" style="background-image: url('{% static slide.background %}')">
+    <div class="single-slider" style="background-image: url('/media/{{ slide.background }}')">
       <div class="container">
         <div class="row">
           <div class="col-lg-7">
