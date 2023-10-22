@@ -6,7 +6,11 @@
     <div class="card-header border-0">
       <div class="d-flex justify-content-between">
         <h3 class="mb-0">{{component_name}}</h3>
+        {% if save_to_add %}
         <a href="{% url 'add_object_admin' child_model %}" class="btn btn-sm btn-neutral">New</a>
+        {% else %}
+        <a href="{% url 'add_object_admin' child_model %}" class="btn btn-sm btn-neutral disabled">New</a>
+        {% endif %}
       </div>
     </div>
     <!-- Light table -->

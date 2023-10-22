@@ -15,6 +15,9 @@ class Component:
             return model_class._meta.get_fields()
         else:
             return []
+        
+    def is_safe_to_add_new(self):
+        return True
 
 
 class Model:
@@ -48,6 +51,9 @@ class SliderItem(models.Model, Model):
 class Schedule(models.Model, Component, Model):
     name = models.CharField(max_length=100)
     childModel = 'ScheduleItem'
+
+    def is_safe_to_add_new(self):
+        return self.scheduleitem_set.count() < 3
 
     def __str__(self):
         return self.name
