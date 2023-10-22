@@ -23,68 +23,7 @@
 <!-- Page content -->
 <div class="container-fluid mt--6">
   <div class="row">
-    <div class="col">
-      <div class="card">
-        <!-- Card header -->
-        <div class="card-header border-0">
-          <div class="d-flex justify-content-between">
-            <h3 class="mb-0">Slider</h3>
-            <a href="{% url 'add_object_admin' 'SliderItem' %}" class="btn btn-sm btn-neutral">New</a>
-          </div>
-        </div>
-        <!-- Light table -->
-        <div class="table-responsive">
-          <table class="table align-items-center table-flush">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col" class="sort" data-sort="name">Index</th>
-                <th scope="col" class="sort" data-sort="name">Heading</th>
-                <th scope="col" class="sort" data-sort="budget">Description</th>
-                <th scope="col" class="sort" data-sort="status">Left Button</th>
-                <th scope="col" class="sort" data-sort="status">Right Button</th>
-                <th scope="col" class="sort" data-sort="status">Background</th>
-                <th scope="col" class="sort" data-sort="completion">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="list">
-              {% for slide in slider %}
-              <tr>
-                <td>
-                  <a href="{% url 'edit_object_admin' 'SliderItem' slide.pk %}" class="mr-1"> {{forloop.counter}} </a>
-                </td>
-                <td>{{slide.heading}}</td>
-                <td>{{slide.description}}</td>
-                <td>{{slide.left_button}}</td>
-                <td>{{slide.right_button}}</td>
-                <td>
-                  <a target="_blank" href="/media/{{slide.background}}">
-                    <img class="w-100" alt="Image placeholder" src="/media/{{slide.background}}" />
-                  </a>
-                </td>
-                <td class="text-right">
-                  <div class="dropdown">
-                    <a
-                      class="btn btn-sm btn-icon-only text-light"
-                      href="#"
-                      role="button"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false">
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="{% url 'edit_object_admin' 'SliderItem' slide.pk %}">Edit</a>
-                      <a class="dropdown-item" href="{% url 'delete_object_admin' 'SliderItem' slide.pk %}">Delete</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    {% for component in components %} {% include "home/component.html" with component=component.get_children child_fields=component.get_children_fields component_name=component child_model=component.childModel %} {% endfor %}
   </div>
 </div>
 

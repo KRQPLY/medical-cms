@@ -4,7 +4,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
-from client.models import Slider
 from django.apps import apps
 from django.forms import modelform_factory
 
@@ -45,11 +44,17 @@ def pages(request):
 
 @login_required(login_url="/administration/login/")
 def components_view(request):
-    slider = Slider.objects.get(name="slider-main")
+    models_list = apps.get_app_config('client').get_models()
 
-    slider_items = slider.slideritem_set.all()
+    filtered_models = [
+        model for model in models_list if hasattr(model, 'isComponent')]
 
-    return render(request, 'home/components.html', {'slider': slider_items})
+    components = []
+
+    for model in filtered_models:
+        components += model.objects.all()
+
+    return render(request, 'home/components.html', {'components': components})
 
 
 @login_required(login_url="/administration/login/")
@@ -57,7 +62,7 @@ def edit_object(request, model_name, pk):
     model = apps.get_model(app_label='client', model_name=model_name)
     object = get_object_or_404(model, pk=pk)
     modelForm = modelform_factory(model, fields='__all__')
-    
+
     if request.method == 'POST':
         form = modelForm(request.POST, request.FILES, instance=object)
         if form.is_valid():
@@ -65,7 +70,23 @@ def edit_object(request, model_name, pk):
             return redirect(components_view)
     else:
         form = modelForm(instance=object)
-    
+
+    return render(request, 'home/edit.html', {'form': form})
+
+
+@login_required(login_url="/administration/login/")
+def add_object(request, model_name):
+    model = apps.get_model(app_label='client', model_name=model_name)
+    modelForm = modelform_factory(model, fields='__all__')
+
+    if request.method == 'POST':
+        form = modelForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(components_view)
+    else:
+        form = modelForm()
+
     return render(request, 'home/edit.html', {'form': form})
 
 
@@ -76,18 +97,3 @@ def delete_object(request, model_name, pk):
     object.delete()
 
     return redirect(components_view)
-
-@login_required(login_url="/administration/login/")
-def add_object(request, model_name):
-    model = apps.get_model(app_label='client', model_name=model_name)
-    modelForm = modelform_factory(model, fields='__all__')
-    
-    if request.method == 'POST':
-        form = modelForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect(components_view)
-    else:
-        form = modelForm()
-    
-    return render(request, 'home/edit.html', {'form': form})
