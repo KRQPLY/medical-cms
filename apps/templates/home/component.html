@@ -5,16 +5,12 @@
     <!-- Card header -->
     <div class="card-header border-0">
       <div class="d-flex justify-content-between">
-        <h3 class="mb-0">{{component_name}}</h3>
-        {% if save_to_add %}
-        <a href="{% url 'add_object_admin' child_model %}" class="btn btn-sm btn-neutral">New</a>
-        {% else %}
-        <a href="{% url 'add_object_admin' child_model %}" class="btn btn-sm btn-neutral disabled">New</a>
-        {% endif %}
+        <h3 class="mb-0">{{component_name}} </h3>
+        <a href="{% url 'add_object_admin' child_model %}" class="btn btn-sm btn-neutral {% if not save_to_add %} d-none {% endif %}">New</a>
       </div>
     </div>
     <!-- Light table -->
-    <div class="table-responsive">
+    <div class="table-responsive ">
       <table class="table align-items-center table-flush">
         <thead class="thead-light">
           <tr>
@@ -35,7 +31,7 @@
                     <a href="{% url 'edit_object_admin' item.class_name item.pk %}" class="mr-1"> {{index}} </a>
                   </td>
                 {% elif field.get_internal_type == 'TextField' or field.get_internal_type == 'CharField' %}
-                  <td>{{ item|get_attribute:field.name }}</td>
+                  <td class="text-wrap">{{ item|get_attribute:field.name }}</td>
                 {% elif field.get_internal_type == 'FileField' %}
                   <td>
                     <a target="_blank" href="/media/{{item|get_attribute:field.name}}">

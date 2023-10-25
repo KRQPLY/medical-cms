@@ -4,6 +4,8 @@ from django.apps import apps
 
 class Component:
     isComponent = True
+    maxItems = 0
+    isActive = models.BooleanField(default=True)
 
     def get_children(self):
         return getattr(self, self.childModel.lower() + '_set').all()
@@ -17,7 +19,8 @@ class Component:
             return []
         
     def is_safe_to_add_new(self):
-        return True
+        return self.maxItems == 0 or getattr(self, self.childModel.lower() + '_set').count() < self.maxItems
+
 
 
 class Model:
@@ -51,9 +54,7 @@ class SliderItem(models.Model, Model):
 class Schedule(models.Model, Component, Model):
     name = models.CharField(max_length=100)
     childModel = 'ScheduleItem'
-
-    def is_safe_to_add_new(self):
-        return self.scheduleitem_set.count() < 3
+    maxItems = 3
 
     def __str__(self):
         return self.name
