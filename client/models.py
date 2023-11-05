@@ -1,5 +1,6 @@
 from django.db import models
 from django.apps import apps
+from ckeditor.fields import RichTextField
 
 
 class Component:
@@ -41,7 +42,7 @@ class Slider(models.Model, Component, Model):
 
 class SliderItem(models.Model, Model):
     heading = models.TextField()
-    description = models.TextField()
+    description = RichTextField()
     left_button = models.CharField(max_length=200)
     right_button = models.CharField(max_length=200)
     background = models.ImageField(upload_to='slider/%Y/%m/%d')
@@ -63,7 +64,7 @@ class Schedule(models.Model, Component, Model):
 class ScheduleItem(models.Model, Model):
     title = models.TextField()
     heading = models.TextField()
-    description = models.TextField()
+    description = RichTextField()
     button = models.CharField(max_length=200)
     icon = models.CharField(max_length=200)
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)

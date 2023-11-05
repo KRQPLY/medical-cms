@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.apps import apps
 from django.forms import modelform_factory
+from .forms import MyModelForm
 
 
 @login_required(login_url="/administration/login/")
@@ -61,7 +62,7 @@ def components_view(request):
 def edit_object(request, model_name, pk):
     model = apps.get_model(app_label='client', model_name=model_name)
     object = get_object_or_404(model, pk=pk)
-    modelForm = modelform_factory(model, fields='__all__')
+    modelForm = modelform_factory(model, form=MyModelForm)
 
     if request.method == 'POST':
         form = modelForm(request.POST, request.FILES, instance=object)
