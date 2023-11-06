@@ -71,3 +71,21 @@ class ScheduleItem(models.Model, Model):
 
     def __str__(self):
         return self.heading
+
+
+class Feaute(models.Model, Component, Model):
+    name = models.CharField(max_length=100)
+    childModel = 'FeauteItem'
+    maxItems = 1
+
+    def __str__(self):
+        return self.name
+    
+    
+class FeauteItem(models.Model, Model):
+    heading = models.TextField()
+    description = RichTextField()
+    feaute= models.ForeignKey(Feaute, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.heading

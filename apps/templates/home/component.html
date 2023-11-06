@@ -31,7 +31,7 @@
                     <a href="{% url 'edit_object_admin' item.class_name item.pk %}" class="mr-1"> {{index}} </a>
                   </td>
                 {% elif field.get_internal_type == 'TextField' or field.get_internal_type == 'CharField' %}
-                  <td class="text-wrap">{{ item|get_attribute:field.name }}</td>
+                  <td class="text-wrap">{{ item|get_attribute:field.name|safe }}</td>
                 {% elif field.get_internal_type == 'FileField' %}
                   <td>
                     <a target="_blank" href="/media/{{item|get_attribute:field.name}}">
