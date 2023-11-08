@@ -1,17 +1,19 @@
 from django.shortcuts import render
-from .models import Slider, Schedule, Feaute
+from .models import Slider, Schedule, Feature
 
 
 def home_view(request):
     slider, _ = Slider.objects.get_or_create(name="Slider Main")
     schedule, _ = Schedule.objects.get_or_create(name="Schedule")
-    feaute, _ = Feaute.objects.get_or_create(name="Feaute")
+    feature, _ = Feature.objects.get_or_create(name="Feature")
+    # funFacts, _ = FunFacts.objects.get_or_create(name="FunFacts")
 
     slider_items = slider.slideritem_set.all()
     schedule_items = schedule.scheduleitem_set.all()
-    feautes_items = feaute.feauteitem_set.all()
+    feature_items = feature.featureitem_set.all()
+    # funFacts_items = funFacts.funfactsitem_set.all()
 
-    return render(request, 'index.html', {'slides': slider_items, 'schedules': schedule_items, 'feautes':feautes_items})
+    return render(request, 'index.html', {'slides': slider_items, 'schedules': schedule_items, 'feature':feature_items})
 
 
 def error_view(request):

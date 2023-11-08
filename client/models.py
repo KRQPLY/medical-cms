@@ -3,10 +3,18 @@ from django.apps import apps
 from ckeditor.fields import RichTextField
 
 
+class Page(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class Component:
     isComponent = True
     maxItems = 0
     isActive = models.BooleanField(default=True)
+    page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
     def get_children(self):
         return getattr(self, self.childModel.lower() + '_set').all()
@@ -73,19 +81,36 @@ class ScheduleItem(models.Model, Model):
         return self.heading
 
 
-class Feaute(models.Model, Component, Model):
+class Feature(models.Model, Component, Model):
     name = models.CharField(max_length=100)
-    childModel = 'FeauteItem'
+    childModel = 'FeatureItem'
     maxItems = 1
 
     def __str__(self):
         return self.name
     
     
-class FeauteItem(models.Model, Model):
+class FeatureItem(models.Model, Model):
     heading = models.TextField()
     description = RichTextField()
-    feaute= models.ForeignKey(Feaute, on_delete=models.CASCADE)
+    feature= models.ForeignKey(Feature, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.heading
+    
+# class FunFacts(models.Model, Component, Model):
+#     name = models.CharField(max_length=100)
+#     childModel = 'FunFactsItem'
+#     maxItems = 4
+
+#     def __str__(self):
+#         return self.name
+    
+# class FunFactsItem(models.Model, Model):
+#     icon = models.CharField(max_length=200)
+#     counter = models.FloatField()
+#     content = RichTextField()
+#     funFacts = models.ForeignKey(FunFacts, on_delete=models.CASCADE)
+
+#     def __str__(self):
+#         return self.content
