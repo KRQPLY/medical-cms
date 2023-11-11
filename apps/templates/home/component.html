@@ -6,7 +6,10 @@
     <div class="card-header border-0">
       <div class="d-flex justify-content-between">
         <h3 class="mb-0">{{component_name}} </h3>
-        <a href="{% url 'add_object_admin' child_model %}" class="btn btn-sm btn-neutral {% if not save_to_add %} d-none {% endif %}">New</a>
+        <div class="d-flex justify-content-end">
+          <a href="{% url 'edit_object_admin' component_name.class_name component_name.pk %}" class="btn btn-sm btn-neutral"> Edit </a>
+          <a href="{% url 'add_object_admin' child_model %}" class="btn btn-sm btn-neutral {% if not save_to_add %} d-none {% endif %}">New</a>
+         </div>
       </div>
     </div>
     <!-- Light table -->
@@ -30,7 +33,7 @@
                   <td>
                     <a href="{% url 'edit_object_admin' item.class_name item.pk %}" class="mr-1"> {{index}} </a>
                   </td>
-                {% elif field.get_internal_type == 'TextField' or field.get_internal_type == 'CharField' %}
+                {% elif field.get_internal_type == 'TextField' or field.get_internal_type == 'CharField' or field.get_internal_type == 'PositiveIntegerField'%}
                   <td class="text-wrap">{{ item|get_attribute:field.name|safe }}</td>
                 {% elif field.get_internal_type == 'FileField' %}
                   <td>

@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
             ],
-            bases=(models.Model, client.models.Component, client.models.Model),
+            bases=(client.models.Component, client.models.Model),
         ),
         migrations.CreateModel(
             name='FeauteItem',

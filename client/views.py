@@ -8,12 +8,12 @@ def home_view(request):
     feature, _ = Feature.objects.get_or_create(name="Feature")
     # funFacts, _ = FunFacts.objects.get_or_create(name="FunFacts")
 
-    slider_items = slider.slideritem_set.all()
-    schedule_items = schedule.scheduleitem_set.all()
-    feature_items = feature.featureitem_set.all()
+    slider_items = slider.slideritem_set.all().order_by('order')
+    schedule_items = schedule.scheduleitem_set.all().order_by('order')
+    feature_items = feature.featureitem_set.all().order_by('order')
     # funFacts_items = funFacts.funfactsitem_set.all()
 
-    return render(request, 'index.html', {'slides': slider_items, 'schedules': schedule_items, 'feature':feature_items})
+    return render(request, 'index.html', {'slides': slider_items, 'schedules': schedule_items, 'features':feature_items})
 
 
 def error_view(request):

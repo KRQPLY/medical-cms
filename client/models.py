@@ -10,14 +10,17 @@ class Page(models.Model):
         return self.name
 
 
-class Component:
+class Component(models.Model):
     isComponent = True
     maxItems = 0
+    order = models.PositiveIntegerField(default=0)
     isActive = models.BooleanField(default=True)
-    page = models.ForeignKey(Page, on_delete=models.CASCADE)
+    page = models.ForeignKey(Page, on_delete=models.CASCADE, blank=True, null=True)
+    class Meta:
+        abstract = True
 
     def get_children(self):
-        return getattr(self, self.childModel.lower() + '_set').all()
+        return getattr(self, self.childModel.lower() + '_set').all().order_by('order')
 
     def get_children_fields(self):
         model_class = apps.get_model(
@@ -29,6 +32,13 @@ class Component:
         
     def is_safe_to_add_new(self):
         return self.maxItems == 0 or getattr(self, self.childModel.lower() + '_set').count() < self.maxItems
+    
+class Item(models.Model):
+    isItem = True
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        abstract = True
 
 
 
@@ -40,7 +50,7 @@ class Model:
         return self._meta.get_fields()
 
 
-class Slider(models.Model, Component, Model):
+class Slider(Component, Model):
     name = models.CharField(max_length=100)
     childModel = 'SliderItem'
 
@@ -48,7 +58,7 @@ class Slider(models.Model, Component, Model):
         return self.name
 
 
-class SliderItem(models.Model, Model):
+class SliderItem(Item, Model):
     heading = models.TextField()
     description = RichTextField()
     left_button = models.CharField(max_length=200)
@@ -60,7 +70,7 @@ class SliderItem(models.Model, Model):
         return self.heading
 
 
-class Schedule(models.Model, Component, Model):
+class Schedule(Component, Model):
     name = models.CharField(max_length=100)
     childModel = 'ScheduleItem'
     maxItems = 3
@@ -69,7 +79,7 @@ class Schedule(models.Model, Component, Model):
         return self.name
 
 
-class ScheduleItem(models.Model, Model):
+class ScheduleItem(Item, Model):
     title = models.TextField()
     heading = models.TextField()
     description = RichTextField()
@@ -81,7 +91,7 @@ class ScheduleItem(models.Model, Model):
         return self.heading
 
 
-class Feature(models.Model, Component, Model):
+class Feature(Component, Model):
     name = models.CharField(max_length=100)
     childModel = 'FeatureItem'
     maxItems = 1
@@ -90,7 +100,7 @@ class Feature(models.Model, Component, Model):
         return self.name
     
     
-class FeatureItem(models.Model, Model):
+class FeatureItem(Item, Model):
     heading = models.TextField()
     description = RichTextField()
     feature= models.ForeignKey(Feature, on_delete=models.CASCADE)
