@@ -8,12 +8,19 @@
     {% include 'components/preloader.html' %}
     <!-- Header -->
     {% include 'components/header.html' %}
-    <!-- Slider -->
-    {% include "components/slider.html" %}
-    <!-- Schedule -->
-    {% include 'components/schedule.html' %}
-    <!-- feature -->
-    {% include 'components/feature.html' %}
+
+    {% for component in components %}
+      {% if component.class_name == 'Slider'%}
+        <!-- Slider -->
+        {% include "components/slider.html" with component=component%}
+      {% elif component.class_name == 'Schedule'%}
+        <!-- Schedule -->
+        {% include 'components/schedule.html' with component=component%}
+      {% elif component.class_name == 'Feature'%}
+        <!-- Feature -->
+        {% include 'components/feature.html' with component=component%}
+      {% endif %}
+    {% endfor %}
 
     <!-- Start Fun-facts -->
     <div id="fun-facts" class="fun-facts section overlay">

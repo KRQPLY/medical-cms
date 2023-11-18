@@ -2,13 +2,28 @@ from django.db import models
 from django.apps import apps
 from ckeditor.fields import RichTextField
 
+class Model:
+    def class_name(self):
+        return self.__class__.__name__
 
-class Page(models.Model):
+    def get_fields(self):
+        return self._meta.get_fields()
+
+class Page(models.Model, Model):
     name = models.CharField(max_length=100)
 
+    def get_components(self):
+        fields = self._meta.related_objects
+        components = []
+        for field in fields:
+            components.append(getattr(self, field.name.lower() + '_set').all().get())
+
+        components.sort(key=lambda x: x.order)
+ 
+        return components
+    
     def __str__(self):
         return self.name
-
 
 class Component(models.Model):
     isComponent = True
@@ -39,16 +54,6 @@ class Item(models.Model):
 
     class Meta:
         abstract = True
-
-
-
-class Model:
-    def class_name(self):
-        return self.__class__.__name__
-
-    def get_fields(self):
-        return self._meta.get_fields()
-
 
 class Slider(Component, Model):
     name = models.CharField(max_length=100)

@@ -1,9 +1,9 @@
-<nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+<nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
   <div class="scrollbar-inner">
     <!-- Brand -->
-    <div class="sidenav-header  align-items-center">
+    <div class="sidenav-header align-items-center">
       <a class="navbar-brand" href="/administration">
-        <img src="/static/assets/img/brand/blue.png" class="navbar-brand-img" alt="Argon Design - Jinja Template Logo.">
+        <img src="/static/assets/img/brand/blue.png" class="navbar-brand-img" alt="Argon Design - Jinja Template Logo." />
       </a>
     </div>
     <div class="navbar-inner">
@@ -36,7 +36,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'components_admin' %}">
+            <a class="nav-link" href="{% url 'pages_admin' %}">
+              <i class="ni ni-laptop text-green"></i>
+              <span class="nav-link-text">Pages</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">
               <i class="ni ni-bullet-list-67 text-default"></i>
               <span class="nav-link-text">Components</span>
             </a>
@@ -59,10 +65,10 @@
               <i class="ni ni-user-run text-red"></i>
               <span class="nav-link-text">Logout</span>
             </a>
-          </li>            
+          </li>
         </ul>
         <!-- Divider -->
-        <hr class="my-3">
+        <hr class="my-3" />
       </div>
     </div>
   </div>

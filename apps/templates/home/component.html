@@ -7,8 +7,8 @@
       <div class="d-flex justify-content-between">
         <h3 class="mb-0">{{component_name}} </h3>
         <div class="d-flex justify-content-end">
-          <a href="{% url 'edit_object_admin' component_name.class_name component_name.pk %}" class="btn btn-sm btn-neutral"> Edit </a>
-          <a href="{% url 'add_object_admin' child_model %}" class="btn btn-sm btn-neutral {% if not save_to_add %} d-none {% endif %}">New</a>
+          <a href="{% url 'edit_object_admin' component_name.class_name component_name.pk %}?next={{ request.path|urlencode }}" class="btn btn-sm btn-neutral"> Edit </a>
+          <a href="{% url 'add_object_admin' child_model %}?next={{ request.path|urlencode }}" class="btn btn-sm btn-neutral {% if not save_to_add %} d-none {% endif %}">New</a>
          </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
               {% if field.get_internal_type != 'ForeignKey' %}
                 {% if field.get_internal_type == 'BigAutoField' %}
                   <td>
-                    <a href="{% url 'edit_object_admin' item.class_name item.pk %}" class="mr-1"> {{index}} </a>
+                    <a href="{% url 'edit_object_admin' item.class_name item.pk %}?next={{ request.path|urlencode }}" class="mr-1"> {{index}} </a>
                   </td>
                 {% elif field.get_internal_type == 'TextField' or field.get_internal_type == 'CharField' or field.get_internal_type == 'PositiveIntegerField'%}
                   <td class="text-wrap">{{ item|get_attribute:field.name|safe }}</td>
@@ -56,8 +56,8 @@
                   <i class="fas fa-ellipsis-v"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                  <a class="dropdown-item" href="{% url 'edit_object_admin' item.class_name item.pk %}">Edit</a>
-                  <a class="dropdown-item" href="{% url 'delete_object_admin' item.class_name item.pk %}">Delete</a>
+                  <a class="dropdown-item" href="{% url 'edit_object_admin' item.class_name item.pk %}?next={{ request.path|urlencode }}">Edit</a>
+                  <a class="dropdown-item" href="{% url 'delete_object_admin' item.class_name item.pk %}?next={{ request.path|urlencode }}">Delete</a>
                 </div>
               </div>
             </td>

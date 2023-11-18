@@ -17,6 +17,7 @@
               {% endfor %}
             </div>
             <div class="d-flex justify-content-end">
+              <input type="hidden" name="next" value="{{request.GET.next}}" />
               <input class="btn btn-lg btn-primary" type="submit" value="submit" />
             </div>
           </form>

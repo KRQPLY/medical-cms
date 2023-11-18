@@ -2,7 +2,7 @@
 <!-- Slider Area -->
 <section class="slider">
   <div class="hero-slider">
-    {% for slide in slides %}
+    {% for slide in component.get_children %}
     <!-- Start Single Slider -->
     <div class="single-slider" style="background-image: url('/media/{{ slide.background }}')">
       <div class="container">

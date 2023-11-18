@@ -4,7 +4,7 @@
   <div class="container">
     <div class="schedule-inner">
       <div class="row justify-content-center">
-        {% for schedule in schedules %}
+        {% for schedule in component.get_children %}
         <div class="col-lg-4 col-md-6 col-12">
           <!-- single-schedule -->
           <div class="single-schedule first">

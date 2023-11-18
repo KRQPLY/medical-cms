@@ -41,18 +41,18 @@ def pages(request):
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
 
-
 @login_required(login_url="/administration/login/")
-def components_view(request):
-    models_list = apps.get_app_config('client').get_models()
+def pages_view(request):
+    pages = apps.get_model(app_label="client", model_name="page").objects.all()
 
-    filtered_models = [
-        model for model in models_list if hasattr(model, 'isComponent')]
-
-    components = []
-
-    for model in filtered_models:
-        components += model.objects.all()
+    return render(request, 'home/pages.html', {'pages': pages})
+    
+@login_required(login_url="/administration/login/")
+def components_view(request, pk):
+    model = apps.get_model(app_label='client', model_name='Page')
+    object = get_object_or_404(model, pk=pk)
+   
+    components = object.get_components()
 
     return render(request, 'home/components.html', {'components': components})
 
@@ -61,13 +61,16 @@ def components_view(request):
 def edit_object(request, model_name, pk):
     model = apps.get_model(app_label='client', model_name=model_name)
     object = get_object_or_404(model, pk=pk)
+
     modelForm = modelform_factory(model, fields='__all__')
 
     if request.method == 'POST':
         form = modelForm(request.POST, request.FILES, instance=object)
         if form.is_valid():
             form.save()
-            return redirect(components_view)
+            next = request.POST.get('next')
+
+            return HttpResponseRedirect(next) if next else redirect(pages_view)
     else:
         form = modelForm(instance=object)
 
@@ -83,7 +86,9 @@ def add_object(request, model_name):
         form = modelForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect(components_view)
+            next = request.POST.get('next')
+            
+            return HttpResponseRedirect(next) if next else redirect(pages_view)
     else:
         form = modelForm()
 
@@ -95,5 +100,6 @@ def delete_object(request, model_name, pk):
     model = apps.get_model(app_label='client', model_name=model_name)
     object = get_object_or_404(model, pk=pk)
     object.delete()
-
-    return redirect(components_view)
+    next = request.GET.get('next')
+            
+    return HttpResponseRedirect(next) if next else redirect(pages_view)

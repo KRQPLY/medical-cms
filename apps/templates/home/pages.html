@@ -1,0 +1,84 @@
+{% extends 'layouts/base.html' %} {% block title %} Components {% endblock title %} {% block content %}
+
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">Pages</h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a href="/administration"><i class="fas fa-home"></i></a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">Pages</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <div class="d-flex justify-content-between">
+            <h3 class="mb-0">{{page}}</h3>
+            <div class="d-flex justify-content-end">
+              <a href="" class="btn btn-sm btn-neutral">New</a>
+            </div>
+          </div>
+        </div>
+        <!-- Light table -->
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="sort" style="width: 5px" data-sort="name">Id</th>
+                <th scope="col" class="sort" data-sort="name">Name</th>
+                <th scope="col" class="sort text-right" data-sort="completion">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              {% for page in pages %} {% with index=forloop.counter %}
+              <tr>
+                <td class="text-wrap">
+                  <a href="{% url 'components_admin' page.pk %}">{{index}}</a>
+                </td>
+
+                <td class="text-wrap">{{page}}</td>
+                <td class="text-right">
+                  <div class="dropdown">
+                    <a
+                      class="btn btn-sm btn-icon-only text-light"
+                      href="#"
+                      role="button"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false">
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                      <a class="dropdown-item" href="">Edit</a>
+                      <a class="dropdown-item" href="">Delete</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              {% endwith %} {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block javascripts %}{% endblock javascripts %}

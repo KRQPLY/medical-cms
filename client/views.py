@@ -1,19 +1,13 @@
 from django.shortcuts import render
-from .models import Slider, Schedule, Feature
+from .models import Page
 
 
 def home_view(request):
-    slider, _ = Slider.objects.get_or_create(name="Slider Main")
-    schedule, _ = Schedule.objects.get_or_create(name="Schedule")
-    feature, _ = Feature.objects.get_or_create(name="Feature")
-    # funFacts, _ = FunFacts.objects.get_or_create(name="FunFacts")
+    page, _ = Page.objects.get_or_create(name="Main Page")
 
-    slider_items = slider.slideritem_set.all().order_by('order')
-    schedule_items = schedule.scheduleitem_set.all().order_by('order')
-    feature_items = feature.featureitem_set.all().order_by('order')
-    # funFacts_items = funFacts.funfactsitem_set.all()
+    components = page.get_components()
 
-    return render(request, 'index.html', {'slides': slider_items, 'schedules': schedule_items, 'features':feature_items})
+    return render(request, 'index.html', {'components': components})
 
 
 def error_view(request):
