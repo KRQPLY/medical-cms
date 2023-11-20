@@ -5,7 +5,13 @@
     <!-- Card header -->
     <div class="card-header border-0">
       <div class="d-flex justify-content-between">
-        <h3 class="mb-0">{{component_name}} </h3>
+        <div class="d-flex justify-content-start">
+          <h3 class="mb-0 mr-1">{{component_name.order}}.</h3>
+          <h3 class="mb-0">{{component_name}} </h3>
+          {%if not component_name.isActive %}
+            <h3 class="mb-0 ml-2 text-danger">(inactive)</h3>
+          {% endif %}
+        </div>
         <div class="d-flex justify-content-end">
           <a href="{% url 'edit_object_admin' component_name.class_name component_name.pk %}?next={{ request.path|urlencode }}" class="btn btn-sm btn-neutral"> Edit </a>
           <a href="{% url 'add_object_admin' child_model %}?next={{ request.path|urlencode }}" class="btn btn-sm btn-neutral {% if not save_to_add %} d-none {% endif %}">New</a>

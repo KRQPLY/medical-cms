@@ -11,10 +11,16 @@
       <div class="collapse navbar-collapse" id="sidenav-collapse-main">
         <!-- Nav items -->
         <ul class="navbar-nav">
-          <li class="nav-item">
+          {% comment %} <li class="nav-item">
             <a class="nav-link {% if 'index' in segment %} active {% endif %}" href="/administration">
               <i class="ni ni-tv-2 text-primary"></i>
               <span class="nav-link-text">Dashboard</span>
+            </a>
+          </li> {% endcomment %}
+          <li class="nav-item">
+            <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="/administration/profile.html">
+              <i class="ni ni-single-02 text-yellow"></i>
+              <span class="nav-link-text">Profile</span>
             </a>
           </li>
           <li class="nav-item">
@@ -24,25 +30,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if 'map' in segment %} active {% endif %}" href="/administration/map.html">
-              <i class="ni ni-pin-3 text-primary"></i>
-              <span class="nav-link-text">Google</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="/administration/profile.html">
-              <i class="ni ni-single-02 text-yellow"></i>
-              <span class="nav-link-text">Profile</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="{% url 'pages_admin' %}">
               <i class="ni ni-laptop text-green"></i>
               <span class="nav-link-text">Pages</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
+            <a class="nav-link" href="{% url 'components_all_admin' %}">
               <i class="ni ni-bullet-list-67 text-default"></i>
               <span class="nav-link-text">Components</span>
             </a>

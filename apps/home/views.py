@@ -10,10 +10,11 @@ from django.forms import modelform_factory
 
 @login_required(login_url="/administration/login/")
 def index(request):
-    context = {'segment': 'index'}
+    # context = {'segment': 'index'}
 
-    html_template = loader.get_template('home/index.html')
-    return HttpResponse(html_template.render(context, request))
+    # html_template = loader.get_template('home/index.html')
+    # return HttpResponse(html_template.render(context, request))
+    return redirect("/administration/profile.html")
 
 
 @login_required(login_url="/administration/login/")
@@ -53,6 +54,21 @@ def components_view(request, pk):
     object = get_object_or_404(model, pk=pk)
    
     components = object.get_components()
+
+    return render(request, 'home/components.html', {'components': components})
+
+
+@login_required(login_url="/administration/login/")
+def components_all_view(request):
+    models_list = apps.get_app_config('client').get_models()
+
+    filtered_models = [
+        model for model in models_list if hasattr(model, 'isComponent')]
+
+    components = []
+
+    for model in filtered_models:
+        components += model.objects.all()
 
     return render(request, 'home/components.html', {'components': components})
 

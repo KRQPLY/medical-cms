@@ -23,7 +23,10 @@
 <!-- Page content -->
 <div class="container-fluid mt--6">
   <div class="row">
-    {% for component in components %} {% include "home/component.html" with component=component.get_children child_fields=component.get_children_fields component_name=component child_model=component.childModel save_to_add=component.is_safe_to_add_new is_active=component.isActive %} {% endfor %}
+    {% for component in components %} {% include "home/component.html" with component=component.get_children child_fields=component.get_children_fields component_name=component child_model=component.childModel save_to_add=component.is_safe_to_add_new is_active=component.isActive %} 
+    {% empty %}
+    <div class="col card text-center">There are no components here.</div>
+    {% endfor %}
   </div>
 </div>
 

@@ -3,7 +3,7 @@ from .models import Page
 
 
 def home_view(request):
-    page, _ = Page.objects.get_or_create(name="Main Page")
+    page, _ = Page.objects.get_or_create(name="index.html")
 
     components = page.get_components()
 

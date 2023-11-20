@@ -1,6 +1,7 @@
 from django.db import models
 from django.apps import apps
 from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
 
 class Model:
     def class_name(self):
@@ -11,12 +12,16 @@ class Model:
 
 class Page(models.Model, Model):
     name = models.CharField(max_length=100)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='created_pages')
+    modified_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='modified_pages')
 
     def get_components(self):
         fields = self._meta.related_objects
         components = []
         for field in fields:
-            components.append(getattr(self, field.name.lower() + '_set').all().get())
+            if getattr(self, field.name.lower() + '_set').exists():
+                components.append(getattr(self, field.name.lower() + '_set').all().get())
 
         components.sort(key=lambda x: x.order)
  
@@ -29,8 +34,8 @@ class Component(models.Model):
     isComponent = True
     maxItems = 0
     order = models.PositiveIntegerField(default=0)
-    isActive = models.BooleanField(default=True)
-    page = models.ForeignKey(Page, on_delete=models.CASCADE, blank=True, null=True)
+    isActive = models.BooleanField(default=True, choices=((True, 'TRUE'), (False, 'FALSE')))
+    page = models.ForeignKey(Page, on_delete=models.SET_NULL, blank=True, null=True)
     class Meta:
         abstract = True
 
