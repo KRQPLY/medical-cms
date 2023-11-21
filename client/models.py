@@ -21,7 +21,8 @@ class Page(models.Model, Model):
         components = []
         for field in fields:
             if getattr(self, field.name.lower() + '_set').exists():
-                components.append(getattr(self, field.name.lower() + '_set').all().get())
+                related_set = getattr(self, field.get_accessor_name())
+                components.extend(related_set.all())
 
         components.sort(key=lambda x: x.order)
  
@@ -35,7 +36,8 @@ class Component(models.Model):
     maxItems = 0
     order = models.PositiveIntegerField(default=0)
     isActive = models.BooleanField(default=True, choices=((True, 'TRUE'), (False, 'FALSE')))
-    page = models.ForeignKey(Page, on_delete=models.SET_NULL, blank=True, null=True)
+    #page = models.ForeignKey(Page, on_delete=models.SET_NULL, blank=True, null=True)
+    page = models.ManyToManyField(Page, blank=True)
     class Meta:
         abstract = True
 

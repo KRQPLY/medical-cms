@@ -6,6 +6,22 @@ from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.apps import apps
 from django.forms import modelform_factory
+from . import forms
+
+def get_form_class(model):
+    try:
+        return getattr(forms, model.__name__ + 'Form')
+    except (ImportError, AttributeError):
+        pass
+    
+    parent_model = model.__bases__[0] if model.__bases__ else None
+    if parent_model:
+        try:
+            return getattr(forms, parent_model.__name__ + 'Form')
+        except (ImportError, AttributeError):
+            pass
+
+    return None
 
 
 @login_required(login_url="/administration/login/")
@@ -62,13 +78,25 @@ def components_view(request, pk):
 def components_all_view(request):
     models_list = apps.get_app_config('client').get_models()
 
-    filtered_models = [
-        model for model in models_list if hasattr(model, 'isComponent')]
+    unique_components = set()
+
+    for model in models_list:
+        if hasattr(model, 'isComponent'):
+            unique_components.add(model.__name__)
+
+    return render(request, 'home/components-all.html', {'components': unique_components})
+
+@login_required(login_url="/administration/login/")
+def components_browse_view(request, model_name):
+    models_list = apps.get_app_config('client').get_models()
+
+    filtered_models = [model for model in models_list if hasattr(model, 'isComponent')]
 
     components = []
 
     for model in filtered_models:
-        components += model.objects.all()
+        if model.__name__ == model_name:
+            components += model.objects.all()
 
     return render(request, 'home/components.html', {'components': components})
 
@@ -79,6 +107,10 @@ def edit_object(request, model_name, pk):
     object = get_object_or_404(model, pk=pk)
 
     modelForm = modelform_factory(model, fields='__all__')
+
+    form_class = get_form_class(model)
+    if form_class is not None:
+        modelForm = modelform_factory(model, form=form_class)
 
     if request.method == 'POST':
         form = modelForm(request.POST, request.FILES, instance=object)
@@ -96,7 +128,12 @@ def edit_object(request, model_name, pk):
 @login_required(login_url="/administration/login/")
 def add_object(request, model_name):
     model = apps.get_model(app_label='client', model_name=model_name)
+    
     modelForm = modelform_factory(model, fields='__all__')
+
+    form_class = get_form_class(model)
+    if form_class is not None:
+        modelForm = modelform_factory(model, form=form_class)
 
     if request.method == 'POST':
         form = modelForm(request.POST, request.FILES)

@@ -5,13 +5,13 @@
     <div class="header-body">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
-          <h6 class="h2 text-white d-inline-block mb-0">Pages</h6>
+          <h6 class="h2 text-white d-inline-block mb-0">Components</h6>
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
               <li class="breadcrumb-item">
                 <a href="/administration"><i class="fas fa-home"></i></a>
               </li>
-              <li class="breadcrumb-item active" aria-current="page">Pages</li>
+              <li class="breadcrumb-item active" aria-current="page">Components</li>
             </ol>
           </nav>
         </div>
@@ -28,10 +28,10 @@
         <!-- Card header -->
         <div class="card-header border-0">
           <div class="d-flex justify-content-between">
-            <h3 class="mb-0">Your pages</h3>
-            <div class="d-flex justify-content-end">
+            <h3 class="mb-0">Components by type</h3>
+            {% comment %} <div class="d-flex justify-content-end">
               <a href="{% url 'add_object_admin' 'page' %}?next={{ request.path|urlencode }}" class="btn btn-sm btn-neutral">New</a>
-            </div>
+            </div> {% endcomment %}
           </div>
         </div>
         <!-- Light table -->
@@ -39,39 +39,24 @@
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col" class="sort" style="width: 5px" data-sort="name">Id</th>
-                <th scope="col" class="sort" data-sort="name">Name</th>
+                <th scope="col" class="sort" style="width: 5px" data-sort="name">Type name</th>
                 <th scope="col" class="sort text-right" data-sort="completion">Actions</th>
               </tr>
             </thead>
             <tbody class="list">
-              {% for page in pages %} {% with index=forloop.counter %}
+              {% for component in components %}
               <tr>
-                <td class="text-wrap">
+                {% comment %} <td class="text-wrap">
                   <a href="{% url 'components_admin' page.pk %}">{{index}}</a>
-                </td>
+                </td> {% endcomment %}
 
-                <td class="text-wrap">{{page}}</td>
+                <td class="text-wrap">{{component}}</td>
                 <td class="text-right">
-                  <a href="{% url 'components_admin' page.pk %}" class="btn btn-sm btn-neutral">BROWSE PAGE COMPONENTS</a>
-                  <div class="dropdown">
-                    <a
-                      class="btn btn-sm btn-icon-only text-light"
-                      href="#"
-                      role="button"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false">
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="{% url 'edit_object_admin' page.class_name page.pk %}?next={{ request.path|urlencode }}">Edit</a>
-                      <a class="dropdown-item" href="{% url 'delete_object_admin' page.class_name page.pk %}?next={{ request.path|urlencode }}">Delete</a>
-                    </div>
-                  </div>
+                  <a href="{% url 'components_browse_admin' component %}?next={{ request.path|urlencode }}" class="btn btn-sm btn-neutral">BROWSE</a>
+                  <a href="{% url 'add_object_admin' component %}?next={% url 'components_browse_admin' component %}" class="btn btn-sm btn-neutral">ADD NEW</a>
                 </td>
               </tr>
-              {% endwith %} {% endfor %}
+              {% endfor %}
             </tbody>
           </table>
         </div>

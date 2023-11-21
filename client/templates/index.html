@@ -9,7 +9,7 @@
     <!-- Header -->
     {% include 'components/header.html' %}
 
-    {% for component in components %}
+    {% comment %} {% for component in components %}
       {% if component.class_name == 'Slider'%}
         <!-- Slider -->
         {% include "components/slider.html" with component=component%}
@@ -19,6 +19,14 @@
       {% elif component.class_name == 'Feature'%}
         <!-- Feature -->
         {% include 'components/feature.html' with component=component%}
+      {% endif %}
+    {% endfor %} {% endcomment %}
+
+    {% for component in components %}
+      {% if component.isActive %}
+        {% with 'components/'|add:component.class_name|add:'.html' as template_name%}
+          {% include template_name with component=component %}
+        {% endwith %}
       {% endif %}
     {% endfor %}
 
