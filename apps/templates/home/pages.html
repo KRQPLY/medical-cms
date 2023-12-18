@@ -45,33 +45,7 @@
               </tr>
             </thead>
             <tbody class="list">
-              {% for page in pages %} {% with index=forloop.counter %}
-              <tr>
-                <td class="text-wrap">
-                  <a href="{% url 'components_admin' page.pk %}">{{index}}</a>
-                </td>
-
-                <td class="text-wrap">{{page}}</td>
-                <td class="text-right">
-                  <a href="{% url 'components_admin' page.pk %}" class="btn btn-sm btn-neutral">BROWSE PAGE COMPONENTS</a>
-                  <div class="dropdown">
-                    <a
-                      class="btn btn-sm btn-icon-only text-light"
-                      href="#"
-                      role="button"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false">
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="{% url 'edit_object_admin' page.class_name page.pk %}?next={{ request.path|urlencode }}">Edit</a>
-                      <a class="dropdown-item" href="{% url 'delete_object_admin' page.class_name page.pk %}?next={{ request.path|urlencode }}">Delete</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              {% endwith %} {% endfor %}
+              {% include "home/recursive_page_row.html" with pages=root_pages depth=1 %}
             </tbody>
           </table>
         </div>

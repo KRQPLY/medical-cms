@@ -6,6 +6,8 @@ from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.apps import apps
 from django.forms import modelform_factory
+
+from client.models import Page
 from . import forms
 
 def get_form_class(model):
@@ -60,13 +62,13 @@ def pages(request):
 
 @login_required(login_url="/administration/login/")
 def pages_view(request):
-    pages = apps.get_model(app_label="client", model_name="page").objects.all()
-
-    return render(request, 'home/pages.html', {'pages': pages})
+    Page = apps.get_model(app_label="client", model_name="page")
+    root_pages = Page.objects.filter(parent=None)
+    return render(request, 'home/pages.html', {'root_pages': root_pages})
     
 @login_required(login_url="/administration/login/")
 def components_view(request, pk):
-    model = apps.get_model(app_label='client', model_name='Page')
+    model = apps.get_model(app_label='client', model_name='page')
     object = get_object_or_404(model, pk=pk)
    
     components = object.get_components()
@@ -131,9 +133,20 @@ def add_object(request, model_name):
     
     modelForm = modelform_factory(model, fields='__all__')
 
+    initial_data = {}
+
     form_class = get_form_class(model)
     if form_class is not None:
         modelForm = modelform_factory(model, form=form_class)
+
+    if model_name == 'page' and 'parent' in request.GET:
+        try:
+            parent_page = Page.objects.get(pk=request.GET['parent'])
+            initial_data = {'parent': parent_page}
+        except Page.DoesNotExist:
+            initial_data = {}
+    else:
+        initial_data = {}
 
     if request.method == 'POST':
         form = modelForm(request.POST, request.FILES)
@@ -143,7 +156,7 @@ def add_object(request, model_name):
             
             return HttpResponseRedirect(next) if next else redirect(pages_view)
     else:
-        form = modelForm()
+        form = modelForm(initial=initial_data)
 
     return render(request, 'home/edit.html', {'form': form})
 

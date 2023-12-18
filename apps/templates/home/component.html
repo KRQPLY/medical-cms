@@ -53,7 +53,7 @@
                   <td>
                     <a href="{% url 'edit_object_admin' item.class_name item.pk %}?next={{ request.path|urlencode }}" class="mr-1"> {{index}} </a>
                   </td>
-                {% elif field.get_internal_type == 'TextField' or field.get_internal_type == 'CharField' or field.get_internal_type == 'PositiveIntegerField'%}
+                {% elif field.get_internal_type == 'TextField' or field.get_internal_type == 'CharField' or field.get_internal_type == 'IntegerField'%}
                   <td class="text-wrap">{{ item|get_attribute:field.name|safe }}</td>
                 {% elif field.get_internal_type == 'FileField' %}
                   <td>
