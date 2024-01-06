@@ -11,10 +11,13 @@ class Model:
         return self._meta.get_fields()
 
 class Page(models.Model, Model):
+    TEMPLATE_CHOICES = (('index.html', 'Main Template'), ('blog-single.html', 'Blog Template'), ('contact.html', 'Contact Template'), ('portfolio-details.html', 'Portfolio Template'))
+
     name = models.CharField(max_length=100)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='created_pages')
     modified_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='modified_pages')
+    template = models.CharField(max_length=100, choices=TEMPLATE_CHOICES, default='index.html')
 
     def get_components(self):
         fields = self._meta.related_objects
