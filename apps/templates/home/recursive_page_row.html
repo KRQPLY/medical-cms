@@ -5,10 +5,14 @@
     <td class="text-wrap">
       <a href="{% url 'components_admin' page.pk %}">{{ page.pk }}</a>
     </td>
+    <td class="text-wrap" style="width: 80px;">
+      {{ page.created_by }}
+    </td>
+    <td class="text-wrap" style="width: 80px;">
+      {{ page.modified_by }}
+    </td>
     <td class="text-wrap" style="padding-left: {{ depth }}rem;">{{ page.name }}</td>
     <td class="text-right">
-      <a href="{% url 'add_object_admin' 'page' %}?next={{ request.path|urlencode }}&parent={{page.pk}}" class="btn btn-sm btn-neutral">New subpage</a>
-      <a href="{% url 'components_admin' page.pk %}" class="btn btn-sm btn-neutral">BROWSE PAGE COMPONENTS</a>
       <div class="dropdown">
         <a
           class="btn btn-sm btn-icon-only text-light"
@@ -20,6 +24,8 @@
           <i class="fas fa-ellipsis-v"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+          <a class="dropdown-item" href="{% url 'add_object_admin' 'page' %}?next={{ request.path|urlencode }}&parent={{page.pk}}">New Subpage</a>
+          <a class="dropdown-item" href="{% url 'components_admin' page.pk %}">Browse Components</a>
           <a class="dropdown-item" href="{% url 'edit_object_admin' page.class_name page.pk %}?next={{ request.path|urlencode }}">Edit</a>
           <a class="dropdown-item" href="{% url 'delete_object_admin' page.class_name page.pk %}?next={{ request.path|urlencode }}">Delete</a>
         </div>

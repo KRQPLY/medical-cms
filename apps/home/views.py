@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.apps import apps
 from django.forms import modelform_factory
-
+from django.contrib.auth.models import User
 from client.models import Page
 from . import forms
 
@@ -105,19 +105,26 @@ def components_browse_view(request, model_name):
 
 @login_required(login_url="/administration/login/")
 def edit_object(request, model_name, pk):
+    excluded_fields = ['created_by', 'modified_by']
+    
     model = apps.get_model(app_label='client', model_name=model_name)
     object = get_object_or_404(model, pk=pk)
 
-    modelForm = modelform_factory(model, fields='__all__')
+    modelForm = modelform_factory(model, fields='__all__', exclude=excluded_fields)
 
     form_class = get_form_class(model)
+
     if form_class is not None:
-        modelForm = modelform_factory(model, form=form_class)
+        modelForm = modelform_factory(model, form=form_class, exclude=excluded_fields)
 
     if request.method == 'POST':
         form = modelForm(request.POST, request.FILES, instance=object)
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            uid = User.objects.get(username=request.user.username)
+            instance.modified_by = uid
+            instance.save()
+
             next = request.POST.get('next')
 
             return HttpResponseRedirect(next) if next else redirect(pages_view)
@@ -129,15 +136,18 @@ def edit_object(request, model_name, pk):
 
 @login_required(login_url="/administration/login/")
 def add_object(request, model_name):
+    excluded_fields = ['created_by', 'modified_by']
+
     model = apps.get_model(app_label='client', model_name=model_name)
     
-    modelForm = modelform_factory(model, fields='__all__')
+    modelForm = modelform_factory(model, fields='__all__', exclude=excluded_fields)
 
     initial_data = {}
 
     form_class = get_form_class(model)
+
     if form_class is not None:
-        modelForm = modelform_factory(model, form=form_class)
+        modelForm = modelform_factory(model, form=form_class, exclude=excluded_fields)
 
     if model_name == 'page' and 'parent' in request.GET:
         try:
@@ -150,8 +160,14 @@ def add_object(request, model_name):
 
     if request.method == 'POST':
         form = modelForm(request.POST, request.FILES)
+
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            uid = User.objects.get(username=request.user.username)
+            instance.created_by = uid
+            instance.modified_by = uid
+            instance.save()
+
             next = request.POST.get('next')
             
             return HttpResponseRedirect(next) if next else redirect(pages_view)

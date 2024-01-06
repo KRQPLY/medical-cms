@@ -37,10 +37,10 @@
       <table class="table align-items-center table-flush">
         <thead class="thead-light">
           <tr>
-            {% for field in child_fields %} {% if field.get_internal_type != 'ForeignKey' %}
-            <th scope="col" class="sort" data-sort="name">{{field.name}}</th>
+            {% for field in child_fields %} {% if field.get_internal_type != 'ForeignKey' and field.get_internal_type != 'BigAutoField' or field.name == 'created_by' or field.name == 'modified_by' %}
+            <th scope="col" class="sort pl-2 pr-2" data-sort="name">{{field.name}}</th>
             {% endif %} {% endfor %}
-            <th scope="col" class="sort" data-sort="completion">Actions</th>
+            <th scope="col" class="sort pl-2 pr-2" data-sort="completion">Actions</th>
           </tr>
         </thead>
         <tbody class="list">
@@ -49,22 +49,21 @@
           <tr>
             {% for field in item.get_fields %}
               {% if field.get_internal_type != 'ForeignKey' %}
-                {% if field.get_internal_type == 'BigAutoField' %}
-                  <td>
-                    <a href="{% url 'edit_object_admin' item.class_name item.pk %}?next={{ request.path|urlencode }}" class="mr-1"> {{index}} </a>
-                  </td>
-                {% elif field.get_internal_type == 'TextField' or field.get_internal_type == 'CharField' or field.get_internal_type == 'IntegerField'%}
-                  <td class="text-wrap">{{ item|get_attribute:field.name|safe }}</td>
-                {% elif field.get_internal_type == 'FileField' %}
-                  <td>
+                {% if field.get_internal_type == 'TextField' or field.get_internal_type == 'CharField' or field.get_internal_type == 'IntegerField'%}
+                  <td class="text-wrap pl-2 pr-2">{{ item|get_attribute:field.name|safe }}</td>
+                  {% elif field.get_internal_type == 'FileField' %}
+                  <td class="pl-2 pr-2">
                     <a target="_blank" href="/media/{{item|get_attribute:field.name}}">
-                      <img class="w-100" alt="Image placeholder" src="/media/{{item|get_attribute:field.name}}" />
+                      <img style="width: 80px;" alt="Image placeholder" src="/media/{{item|get_attribute:field.name}}" />
                     </a>
                   </td>
-                {% endif %}
+                  {% endif %}
+              {% elif field.name == 'created_by' or field.name == 'modified_by' %}
+                <td class="text-wrap pl-2 pr-2">{{ item|get_attribute:field.name|safe }}</td>
               {% endif %}
+
             {% endfor %}
-            <td class="text-right">
+            <td class="text-right pl-2 pr-2">
               <div class="dropdown">
                 <a
                   class="btn btn-sm btn-icon-only text-light"

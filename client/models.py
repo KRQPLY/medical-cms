@@ -39,6 +39,9 @@ class Component(models.Model):
     isActive = models.BooleanField(default=True, choices=((True, 'TRUE'), (False, 'FALSE')))
     #page = models.ForeignKey(Page, on_delete=models.SET_NULL, blank=True, null=True)
     page = models.ManyToManyField(Page, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='%(class)s_created_components')
+    modified_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='%(class)s_modified_components')
+
     class Meta:
         abstract = True
 
@@ -59,6 +62,8 @@ class Component(models.Model):
 class Item(models.Model):
     isItem = True
     order = models.IntegerField(default=0)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='%(class)s_created_items')
+    modified_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='%(class)s_modified_items')
 
     class Meta:
         abstract = True
