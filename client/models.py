@@ -32,6 +32,23 @@ class Page(models.Model, Model):
  
         return components
     
+    def get_all_subpages(self):
+        fields = self._meta.related_objects
+        for field in fields:
+            if field.name == 'page' and  getattr(self, field.name.lower() + '_set').exists():
+                related_set = getattr(self, field.get_accessor_name())
+
+                return related_set.all()
+        return []
+            
+    def get_subpage(self, name):
+        for subpage in self.get_all_subpages():
+            if subpage.name == name:
+                return subpage
+            else:
+                return None
+        return None
+    
     def __str__(self):
         return self.name
 
