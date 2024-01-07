@@ -120,10 +120,9 @@ def edit_object(request, model_name, pk):
     if request.method == 'POST':
         form = modelForm(request.POST, request.FILES, instance=object)
         if form.is_valid():
-            instance = form.save(commit=False)
             uid = User.objects.get(username=request.user.username)
-            instance.modified_by = uid
-            instance.save()
+            form.instance.modified_by = uid
+            form.save()
 
             next = request.POST.get('next')
 
@@ -162,11 +161,10 @@ def add_object(request, model_name):
         form = modelForm(request.POST, request.FILES)
 
         if form.is_valid():
-            instance = form.save(commit=False)
             uid = User.objects.get(username=request.user.username)
-            instance.created_by = uid
-            instance.modified_by = uid
-            instance.save()
+            form.instance.created_by = uid
+            form.instance.modified_by = uid
+            form.save()
 
             next = request.POST.get('next')
             
