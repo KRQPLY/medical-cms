@@ -28,10 +28,6 @@ def get_form_class(model):
 
 @login_required(login_url="/administration/login/")
 def index(request):
-    context = {'segment': 'index'}
-
-    html_template = loader.get_template('home/index.html')
-    return HttpResponse(html_template.render(context, request))
     return redirect("/administration/profile.html")
 
 
