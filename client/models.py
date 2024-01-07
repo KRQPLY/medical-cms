@@ -45,8 +45,6 @@ class Page(models.Model, Model):
         for subpage in self.get_all_subpages():
             if subpage.name == name:
                 return subpage
-            else:
-                return None
         return None
     
     def __str__(self):

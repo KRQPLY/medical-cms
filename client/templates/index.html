@@ -12,13 +12,13 @@
     {% comment %} {% for component in components %}
       {% if component.class_name == 'Slider'%}
         <!-- Slider -->
-        {% include "components/slider.html" with component=component%}
+        {% include "components/slider.html"%}
       {% elif component.class_name == 'Schedule'%}
         <!-- Schedule -->
-        {% include 'components/schedule.html' with component=component%}
+        {% include 'components/schedule.html'%}
       {% elif component.class_name == 'Feature'%}
         <!-- Feature -->
-        {% include 'components/feature.html' with component=component%}
+        {% include 'components/feature.html'%}
       {% endif %}
     {% endfor %} {% endcomment %}
 

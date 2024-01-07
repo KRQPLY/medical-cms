@@ -9,3 +9,7 @@ def get_attribute(item, attr_name):
         return getattr(item, attr_name)
     except AttributeError:
         return None
+
+@register.filter
+def parse_page_name(item):
+    return item.name.replace('-', ' ')
