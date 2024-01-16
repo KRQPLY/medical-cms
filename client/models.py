@@ -144,19 +144,19 @@ class FeatureItem(Item, Model):
     def __str__(self):
         return self.heading
     
-# class FunFacts(models.Model, Component, Model):
-#     name = models.CharField(max_length=100)
-#     childModel = 'FunFactsItem'
-#     maxItems = 4
+class Facts(Component, Model):
+    name = models.CharField(max_length=100)
+    childModel = 'FactsItem'
+    maxItems = 4
 
-#     def __str__(self):
-#         return self.name
+    def __str__(self):
+        return self.name
     
-# class FunFactsItem(models.Model, Model):
-#     icon = models.CharField(max_length=200)
-#     counter = models.FloatField()
-#     content = RichTextField()
-#     funFacts = models.ForeignKey(FunFacts, on_delete=models.CASCADE)
+class FactsItem(Item, Model):
+    icon = models.CharField(max_length=200)
+    counter = models.IntegerField(default=0)
+    content = RichTextField()
+    funFacts = models.ForeignKey(Facts, on_delete=models.CASCADE)
 
-#     def __str__(self):
-#         return self.content
+    def __str__(self):
+        return self.content

@@ -9,19 +9,6 @@
     <!-- Header -->
     {% include 'components/header.html' %}
 
-    {% comment %} {% for component in components %}
-      {% if component.class_name == 'Slider'%}
-        <!-- Slider -->
-        {% include "components/slider.html"%}
-      {% elif component.class_name == 'Schedule'%}
-        <!-- Schedule -->
-        {% include 'components/schedule.html'%}
-      {% elif component.class_name == 'Feature'%}
-        <!-- Feature -->
-        {% include 'components/feature.html'%}
-      {% endif %}
-    {% endfor %} {% endcomment %}
-
     {% for component in components %}
       {% if component.isActive %}
         {% with 'components/'|add:component.class_name|add:'.html' as template_name%}
@@ -30,71 +17,9 @@
       {% endif %}
     {% endfor %}
 
-    <!-- Start Fun-facts -->
-    <div id="fun-facts" class="fun-facts section overlay">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-3 col-md-6 col-12">
-            <!-- Start Single Fun -->
-            <div class="single-fun">
-              <i class="icofont icofont-home"></i>
-              <div class="content">
-                <span class="counter">3468</span>
-                <p>Hospital Rooms</p>
-              </div>
-            </div>
-            <!-- End Single Fun -->
-          </div>
-          <div class="col-lg-3 col-md-6 col-12">
-            <!-- Start Single Fun -->
-            <div class="single-fun">
-              <i class="icofont icofont-user-alt-3"></i>
-              <div class="content">
-                <span class="counter">557</span>
-                <p>Specialist Doctors</p>
-              </div>
-            </div>
-            <!-- End Single Fun -->
-          </div>
-          <div class="col-lg-3 col-md-6 col-12">
-            <!-- Start Single Fun -->
-            <div class="single-fun">
-              <i class="icofont-simple-smile"></i>
-              <div class="content">
-                <span class="counter">4379</span>
-                <p>Happy Patients</p>
-              </div>
-            </div>
-            <!-- End Single Fun -->
-          </div>
-          <div class="col-lg-3 col-md-6 col-12">
-            <!-- Start Single Fun -->
-            <div class="single-fun">
-              <i class="icofont icofont-table"></i>
-              <div class="content">
-                <span class="counter">32</span>
-                <p>Years of Experience</p>
-              </div>
-            </div>
-            <!-- End Single Fun -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--/ End Fun-facts -->
-
     <!-- Start Why choose -->
     <section class="why-choose section">
       <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="section-title">
-              <h2>We Offer Different Services To Improve Your Health</h2>
-              <img src="{% static 'img/section-img.png' %}" alt="#" />
-              <p>Lorem ipsum dolor sit amet consectetur adipiscing elit praesent aliquet. pretiumts</p>
-            </div>
-          </div>
-        </div>
         <div class="row">
           <div class="col-lg-6 col-12">
             <!-- Start Choose Left -->

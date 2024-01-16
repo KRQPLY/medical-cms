@@ -1,0 +1,22 @@
+    {% load static %}
+    <!-- Start Fun-facts -->
+    <div id="fun-facts" class="fun-facts section overlay">
+      <div class="container">
+        <div class="row justify-content-center">
+            {% for funFact in component.get_children %}
+              <div class="col-lg-3 col-md-6 col-12">
+                <!-- Start Single Fun -->
+                <div class="single-fun">
+                  <i class="icofont {{funFact.icon}}"></i>
+                  <div class="content">
+                    <span class="counter">{{funFact.counter}}</span>
+                    {{funFact.content | safe}}
+                  </div>
+                </div>
+                <!-- End Single Fun -->
+              </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!--/ End Fun-facts -->
