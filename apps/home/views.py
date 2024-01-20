@@ -123,6 +123,8 @@ def edit_object(request, model_name, pk):
             next = request.POST.get('next')
 
             return HttpResponseRedirect(next) if next else redirect(pages_view)
+        else:
+            messages.error(request, f'Form is not valid. Errors: {form.errors}')
     else:
         form = modelForm(instance=object)
 
@@ -140,6 +142,7 @@ def add_object(request, model_name):
     initial_data = {}
 
     form_class = get_form_class(model)
+
     if form_class is not None:
         modelForm = modelform_factory(model, form=form_class, exclude=excluded_fields)
 
@@ -162,7 +165,7 @@ def add_object(request, model_name):
             form.save()
 
             next = request.POST.get('next')
-            
+
             return HttpResponseRedirect(next) if next else redirect(pages_view)
         else:
             messages.error(request, f'Form is not valid. Errors: {form.errors}')
