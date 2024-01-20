@@ -127,5 +127,23 @@ STATICFILES_DIRS = (
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+CKEDITOR_CONFIGS = {
+    'default': {
+        'enterMode': 2, # 1 for add p tags and 2 for add br tags
+        'toolbar': [
+            ['Styles', 'Format', 'Font', 'FontSize'],
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+            ['Undo', 'Redo'],
+            '/',
+            ['Source'],
+            ['TextColor', 'BGColor'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Find', 'Replace'],
+            ['Table', 'HorizontalRule', 'SpecialChar'],
+            ['Link', 'Unlink'],
+        ], # https://ckeditor.com/latest/samples/toolbarconfigurator
+    },
+}
+
 #############################################################
 #############################################################
