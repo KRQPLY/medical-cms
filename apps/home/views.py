@@ -8,6 +8,7 @@ from django.apps import apps
 from django.forms import modelform_factory
 from django.contrib.auth.models import User
 from client.models import Page
+from django.contrib import messages
 from . import forms
 
 def get_form_class(model):
@@ -139,7 +140,6 @@ def add_object(request, model_name):
     initial_data = {}
 
     form_class = get_form_class(model)
-
     if form_class is not None:
         modelForm = modelform_factory(model, form=form_class, exclude=excluded_fields)
 
@@ -164,6 +164,8 @@ def add_object(request, model_name):
             next = request.POST.get('next')
             
             return HttpResponseRedirect(next) if next else redirect(pages_view)
+        else:
+            messages.error(request, f'Form is not valid. Errors: {form.errors}')
     else:
         form = modelForm(initial=initial_data)
 
