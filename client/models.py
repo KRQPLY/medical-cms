@@ -156,7 +156,24 @@ class FactsItem(Item, Model):
     icon = models.CharField(max_length=200)
     counter = models.IntegerField(default=0)
     content = RichTextField()
-    funFacts = models.ForeignKey(Facts, on_delete=models.CASCADE)
+    facts = models.ForeignKey(Facts, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.content
+    
+class Video(Component, Model):
+    name = models.CharField(max_length=100)
+    childModel = 'VideoItem'
+    maxItems = 1
+
+    def __str__(self):
+        return self.name
+    
+class VideoItem(Item, Model):
+    heading = models.TextField()
+    content = RichTextField()
+    videoLink = models.TextField()
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.heading
