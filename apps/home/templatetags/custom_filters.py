@@ -17,6 +17,27 @@ def parse_page_name(page):
 
 @register.filter
 def array_in_half(array, index):
-    mid_id = math.ceil(len(array)/2)
+    def check_if_active(page):
+        return page.show_in_footer
     
-    return [array[:mid_id], array[mid_id:]][index]
+    active_items = list(filter(check_if_active, array))
+
+    mid_id = math.ceil(len(active_items)/2)
+    
+    return [active_items[:mid_id], active_items[mid_id:]][index]
+
+@register.filter
+def get_active_subpages(page, component='header'):
+    def check_if_active(page):
+        if component == 'header':
+            return page.show_in_header
+        if component == 'footer':
+            return page.show_in_footer
+        
+    subpages = page.get_all_subpages()
+    active_subpages = list(filter(check_if_active, subpages))
+
+    if(len(active_subpages)):
+        return active_subpages
+    else:
+        return None

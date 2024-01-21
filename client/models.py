@@ -14,6 +14,8 @@ class Page(models.Model, Model):
     TEMPLATE_CHOICES = (('index.html', 'Main Template'), ('blog-single.html', 'Blog Template'), ('contact.html', 'Contact Template'), ('portfolio-details.html', 'Portfolio Template'))
 
     name = models.CharField(max_length=100)
+    show_in_header = models.BooleanField(default=True, choices=((True, 'TRUE'), (False, 'FALSE')))
+    show_in_footer = models.BooleanField(default=True, choices=((True, 'TRUE'), (False, 'FALSE')))
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='created_pages')
     modified_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='modified_pages')

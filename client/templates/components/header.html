@@ -22,18 +22,20 @@
               <nav class="navigation">
                 <ul class="nav menu justify-content-start justify-content-md-end">
                   {% for page in pages %}
-                  {% if page == active_page %}
-                  <li class="active text-capitalize">{% else %}</li>
-
-                  <li class="text-capitalize">
+                    {% if page.show_in_header %}
+                    {% if page == active_page %}
+                    <li class="active text-capitalize">{% else %}</li>
+                    
+                    <li class="text-capitalize">
+                      {% endif %}
+                      <a href="/{{page.name}}/">{{page|parse_page_name}} {% if page|get_active_subpages %}<i class="icofont-rounded-down"></i>{% endif %}</a>
+                      <ul class="dropdown">
+                        {% for subpage in page|get_active_subpages %}
+                          <li><a href="/{{page.name}}/{{subpage.name}}">{{subpage|parse_page_name}}</a></li>
+                        {% endfor %}
+                      </ul>
+                      </li>
                     {% endif %}
-                    <a href="/{{page.name}}/">{{page|parse_page_name}} {% if page.get_all_subpages %}<i class="icofont-rounded-down"></i>{% endif %}</a>
-                    <ul class="dropdown">
-                      {% for subpage in page.get_all_subpages %}
-                      <li><a href="/{{page.name}}/{{subpage.name}}">{{subpage|parse_page_name}}</a></li>
-                      {% endfor %}
-                    </ul>
-                  </li>
                   {% endfor %}
                 </ul>
               </nav>
