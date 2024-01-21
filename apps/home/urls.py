@@ -12,6 +12,7 @@ urlpatterns = [
     path('components/edit/<str:model_name>/<int:pk>', views.edit_object, name='edit_object_admin'),
     path('components/delete/<str:model_name>/<int:pk>', views.delete_object, name='delete_object_admin'),
     path('components/add/<str:model_name>', views.add_object, name='add_object_admin'),
+    path('components/copy/<str:model_name>/<int:object_id>/', views.copy_object, name='copy_object_admin'),
 
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),

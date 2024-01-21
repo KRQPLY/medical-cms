@@ -183,3 +183,23 @@ def delete_object(request, model_name, pk):
     next = request.GET.get('next')
             
     return HttpResponseRedirect(next) if next else redirect(pages_view)
+
+@login_required(login_url="/administration/login/")
+def copy_object(request, model_name, object_id):
+    model = apps.get_model(app_label='client', model_name=model_name)
+
+    original_object = get_object_or_404(model, pk=object_id)
+
+    new_object = model()
+    for field in original_object._meta.fields:
+        if field.name not in ['id', 'created_by', 'modified_by']:
+            setattr(new_object, field.name, getattr(original_object, field.name))
+
+    uid = User.objects.get(username=request.user.username)
+    new_object.created_by = uid
+    new_object.modified_by = uid
+
+    new_object.save()
+
+    next = request.GET.get('next')
+    return HttpResponseRedirect(next) if next else redirect(pages_view)
