@@ -82,7 +82,9 @@ def components_all_view(request):
         if hasattr(model, 'isComponent'):
             unique_components.add(model.__name__)
 
-    return render(request, 'home/components-all.html', {'components': unique_components})
+    sorted_components = sorted(unique_components)
+
+    return render(request, 'home/components-all.html', {'components': sorted_components})
 
 @login_required(login_url="/administration/login/")
 def components_browse_view(request, model_name):
