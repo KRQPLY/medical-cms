@@ -123,6 +123,7 @@ class ScheduleItem(Item, Model):
     description = RichTextField()
     button = models.CharField(max_length=200)
     icon = models.CharField(max_length=200)
+    link = models.TextField()
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -206,6 +207,7 @@ class Services(Component, Model):
 class ServicesItem(Item, Model):
     heading = models.TextField()
     content = RichTextField()
+    link = models.TextField()
     icon = models.CharField(max_length=200)
     services = models.ForeignKey(Services, on_delete=models.CASCADE)
 
