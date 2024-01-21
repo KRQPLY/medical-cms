@@ -193,3 +193,19 @@ class PortfolioItem(Item, Model):
 
     def __str__(self):
         return self.heading
+    
+class Services(Component, Model):
+    name = models.CharField(max_length=100)
+    childModel = 'ServicesItem'
+
+    def __str__(self):
+        return self.name
+    
+class ServicesItem(Item, Model):
+    heading = models.TextField()
+    content = RichTextField()
+    icon = models.CharField(max_length=200)
+    services = models.ForeignKey(Services, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.heading

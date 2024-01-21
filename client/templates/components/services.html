@@ -1,0 +1,21 @@
+{% load static %}
+
+    <!-- Start service -->
+    <section class="services section py-5">
+      <div class="container">
+        <div class="row d-flex justify-content-center">
+          {% for item in component.get_children %}
+          <div class="col-lg-4 col-md-6 col-12">
+            <!-- Start Single Service -->
+            <div class="single-service">
+              <i class="icofont {{item.icon}}"></i>
+              <h4><a href="service-details.html">{{item.heading}}</a></h4>
+              <p>{{item.content}}</p>
+            </div>
+            <!-- End Single Service -->
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <!--/ End service -->
