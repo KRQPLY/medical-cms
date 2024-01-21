@@ -1,0 +1,20 @@
+    {% load static %}
+    
+    <!-- Start portfolio -->
+    <section class="portfolio section pt-0">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12 col-12">
+            <div class="owl-carousel portfolio-slider d-flex justify-content-center">
+              {% for item in component.get_children %}
+              <div class="single-pf">
+                <img src="media/{{item.image}}" alt="#" />
+                <a href="{{item.link}}" class="btn">{{item.heading}}</a>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--/ End portfolio -->

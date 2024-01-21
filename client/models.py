@@ -177,3 +177,19 @@ class VideoItem(Item, Model):
 
     def __str__(self):
         return self.heading
+    
+class Portfolio(Component, Model):
+    name = models.CharField(max_length=100)
+    childModel = 'PortfolioItem'
+
+    def __str__(self):
+        return self.name
+    
+class PortfolioItem(Item, Model):
+    heading = models.TextField()
+    image = models.ImageField(upload_to='portfolio/%Y/%m/%d')
+    link = models.TextField()
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.heading

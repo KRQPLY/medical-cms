@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Slider, SliderItem, Schedule, ScheduleItem, Feature, FeatureItem, Page, Facts, FactsItem, Video, VideoItem
+from .models import Slider, SliderItem, Schedule, ScheduleItem, Feature, FeatureItem, Page, Facts, FactsItem, Video, VideoItem, Portfolio, PortfolioItem
 
 admin.site.register(Page)
 
@@ -13,3 +13,5 @@ admin.site.register(Facts)
 admin.site.register(FactsItem)
 admin.site.register(Video)
 admin.site.register(VideoItem)
+admin.site.register(Portfolio)
+admin.site.register(PortfolioItem)
