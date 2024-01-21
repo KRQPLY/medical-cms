@@ -215,3 +215,25 @@ class ServicesItem(Item, Model):
 
     def __str__(self):
         return self.heading
+    
+class Header(models.Model, Model):
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='portfolio/%Y/%m/%d')
+    image_alt = models.TextField()
+
+    def __str__(self):
+        return self.name
+        
+class Footer(models.Model, Model):
+    name = models.CharField(max_length=100)
+    facebook = models.CharField(max_length=100)
+    google = models.CharField(max_length=100)
+    twitter = models.CharField(max_length=100)
+    vimeo = models.CharField(max_length=100)
+    pinterest = models.CharField(max_length=100)
+    about_us = RichTextField()
+    open_hours = RichTextField()
+    newsletter = RichTextField()
+
+    def __str__(self):
+        return self.name

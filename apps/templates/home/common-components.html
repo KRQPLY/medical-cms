@@ -1,0 +1,69 @@
+{% extends 'layouts/base.html' %} {% block title %} Components {% endblock title %} {% block content %}
+
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">Components</h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a href="/administration"><i class="fas fa-home"></i></a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">Components</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <div class="d-flex justify-content-between">
+            <h3 class="mb-0">Components by type</h3>
+            {% comment %} <div class="d-flex justify-content-end">
+              <a href="{% url 'add_object_admin' 'page' %}?next={{ request.path|urlencode }}" class="btn btn-sm btn-neutral">New</a>
+            </div> {% endcomment %}
+          </div>
+        </div>
+        <!-- Light table -->
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="sort" style="width: 5px" data-sort="name">Type name</th>
+                <th scope="col" class="sort text-right" data-sort="completion">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              {% for component in components %}
+              <tr>
+                {% comment %} <td class="text-wrap">
+                  <a href="{% url 'components_admin' page.pk %}">{{index}}</a>
+                </td> {% endcomment %}
+
+                <td class="text-wrap">{{component}}</td>
+                <td class="text-right">
+                  <a href="{% url 'edit_object_admin' component.class_name component.pk %}?next={{ request.path|urlencode }}" class="btn btn-sm btn-neutral"> Edit </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block javascripts %}{% endblock javascripts %}

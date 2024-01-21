@@ -71,6 +71,16 @@ def components_view(request, pk):
 
     return render(request, 'home/components.html', {'components': components})
 
+@login_required(login_url="/administration/login/")
+def common_components_view(request):
+    Header = apps.get_model(app_label='client', model_name='header')
+    Footer = apps.get_model(app_label='client', model_name='footer')
+
+    header, _ = Header.objects.get_or_create(name='Header')
+    footer, _ = Footer.objects.get_or_create(name='Footer')
+
+    return render(request, 'home/common-components.html', {'components': [header, footer]})
+
 
 @login_required(login_url="/administration/login/")
 def components_all_view(request):

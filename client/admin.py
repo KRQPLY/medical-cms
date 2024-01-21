@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import Slider, SliderItem, Schedule, ScheduleItem, Feature, FeatureItem, Page, Facts, FactsItem, Video, VideoItem, Portfolio, PortfolioItem, Services, ServicesItem
+from .models import Slider, SliderItem, Schedule, ScheduleItem, Feature, FeatureItem, Footer, Header, Page, Facts, FactsItem, Video, VideoItem, Portfolio, PortfolioItem, Services, ServicesItem
 
 admin.site.register(Page)
-
 admin.site.register(Slider)
 admin.site.register(SliderItem)
 admin.site.register(Schedule)
@@ -11,6 +10,8 @@ admin.site.register(Feature)
 admin.site.register(FeatureItem)
 admin.site.register(Facts)
 admin.site.register(FactsItem)
+admin.site.register(Footer)
+admin.site.register(Header)
 admin.site.register(Video)
 admin.site.register(VideoItem)
 admin.site.register(Portfolio)

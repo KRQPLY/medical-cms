@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from .helpers.get_main_pages import get_main_pages
+from .models import Footer, Header
 
 def page_view(request, page_name='home', pages_names=''):
     main_pages = get_main_pages()
     called_page = None
+    header, _ = Header.objects.get_or_create(name='Header')
+    footer, _ = Footer.objects.get_or_create(name='Footer')
 
     for page in main_pages:
         if page.name == page_name:
@@ -27,5 +30,5 @@ def page_view(request, page_name='home', pages_names=''):
 
     components = called_page.get_components()
 
-    return render(request, called_page.template, {'components': components, 'pages': main_pages, 'active_page': active_main_page})
+    return render(request, called_page.template, {'components': components, 'pages': main_pages, 'active_page': active_main_page, 'header':header, 'footer': footer})
 
