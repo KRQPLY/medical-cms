@@ -101,6 +101,8 @@ class SliderItem(Item, Model):
     description = RichTextField()
     left_button = models.CharField(max_length=200)
     right_button = models.CharField(max_length=200)
+    left_button_link = models.TextField()
+    right_button_link = models.TextField()
     background = models.ImageField(upload_to='slider/%Y/%m/%d')
     slider = models.ForeignKey(Slider, on_delete=models.CASCADE)
 
