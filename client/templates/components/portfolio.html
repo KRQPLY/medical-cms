@@ -8,7 +8,7 @@
             <div class="owl-carousel portfolio-slider d-flex justify-content-center">
               {% for item in component.get_children %}
               <div class="single-pf">
-                <img src="media/{{item.image}}" alt="#" />
+                <img src="/media/{{item.image}}" alt="#" />
                 <a href="{{item.link}}" class="btn">{{item.heading}}</a>
               </div>
               {% endfor %}
