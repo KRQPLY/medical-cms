@@ -1,12 +1,16 @@
 from django.shortcuts import render
 from .helpers.get_main_pages import get_main_pages
-from .models import Footer, Header
+from .models import Footer, Header, Page
 
 def page_view(request, page_name='home', pages_names=''):
     main_pages = get_main_pages()
     called_page = None
     header, _ = Header.objects.get_or_create(name='Header')
     footer, _ = Footer.objects.get_or_create(name='Footer')
+
+    if page_name == 'home' and 'home' not in main_pages:
+        Page.objects.get_or_create(name=page_name)
+        main_pages = get_main_pages()
 
     for page in main_pages:
         if page.name == page_name:
